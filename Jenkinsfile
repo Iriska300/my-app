@@ -18,7 +18,7 @@ pipeline {
                 stage('Client') {
                     steps {
                         script {
-                            docker.withRegistry('', env.DOCKER_CREDS) {
+                            docker.withRegistry('https://ghcr.io', env.DOCKER_CREDS) {
                                 def img = docker.build("\${env.REGISTRY}/client:\${env.IMAGE_TAG}", "./client")
                                 img.push()
                                 img.push('latest')
@@ -29,7 +29,7 @@ pipeline {
                 stage('Server') {
                     steps {
                         script {
-                            docker.withRegistry('', env.DOCKER_CREDS) {
+                            docker.withRegistry('https://ghcr.io', env.DOCKER_CREDS) {
                                 def img = docker.build("\${env.REGISTRY}/server:\${env.IMAGE_TAG}", "./server")
                                 img.push()
                                 img.push('latest')
