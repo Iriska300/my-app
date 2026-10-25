@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         REGISTRY     = "ghcr.io/Iriska300"
-        IMAGE_TAG    = "\${env.BUILD_NUMBER}-\${env.GIT_COMMIT.take(7)}"
         DOCKER_CREDS = "docker-hub-credentials"
         KUBECONFIG   = "/var/lib/jenkins/.kube/config"
     }
@@ -18,8 +17,9 @@ pipeline {
                 stage('Client') {
                     steps {
                         script {
+                            def tag = "${env.BUILD_NUMBER}-${env.GIT_COMMIT.take(7)}"
                             docker.withRegistry('https://ghcr.io', env.DOCKER_CREDS) {
-                                def img = docker.build("\${env.REGISTRY}/client:\${env.IMAGE_TAG}", "./client")
+                                def img = docker.build("${env.REGISTRY}/client:${tag}", "./client")
                                 img.push()
                                 img.push('latest')
                             }
@@ -29,8 +29,9 @@ pipeline {
                 stage('Server') {
                     steps {
                         script {
+                            def tag = "${env.BUILD_NUMBER}-${env.GIT_COMMIT.take(7)}"
                             docker.withRegistry('https://ghcr.io', env.DOCKER_CREDS) {
-                                def img = docker.build("\${env.REGISTRY}/server:\${env.IMAGE_TAG}", "./server")
+                                def img = docker.build("${env.REGISTRY}/server:${tag}", "./server")
                                 img.push()
                                 img.push('latest')
                             }
@@ -40,17 +41,19 @@ pipeline {
             }
         }
 
-	stage('Deploy to k3s') {
+        stage('Deploy to k3s') {
             steps {
                 sh """
+                    TAG="${env.BUILD_NUMBER}-${env.GIT_COMMIT.take(7)}"
+                    
                     helm upgrade --install server ./helm/server-chart \
                         --set image.repository=${env.REGISTRY}/server \
-                        --set image.tag=${env.IMAGE_TAG} \
+                        --set image.tag=\$TAG \
                         --wait --timeout 3m
 
                     helm upgrade --install client ./helm/client-chart \
                         --set image.repository=${env.REGISTRY}/client \
-                        --set image.tag=${env.IMAGE_TAG} \
+                        --set image.tag=\$TAG \
                         --wait --timeout 3m
                 """
             }
@@ -68,7 +71,7 @@ pipeline {
     }
 
     post {
-        success { echo "Deployed version \${env.IMAGE_TAG}" }
+        success { echo "Deployed successfully" }
         failure { echo "Pipeline failed." }
     }
 }
