@@ -1,0 +1,5 @@
+apiVersion: v2
+name: server-chart
+description: Server API for my-app
+version: 0.1.0
+appVersion: "1.0"

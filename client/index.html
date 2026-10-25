@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Client</title>
+  <style>
+    body { font-family: sans-serif; max-width: 500px; margin: 60px auto; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    #result { margin-top: 20px; padding: 12px; border: 1px solid #ccc; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Клиент</h1>
+  <button id="btn">Проверить статус сервера</button>
+  <div id="result">—</div>
+  <script>
+    document.getElementById("btn").addEventListener("click", async () => {
+      const box = document.getElementById("result");
+      box.textContent = "Загрузка...";
+      try {
+        const r = await fetch("/api/status");
+        const data = await r.json();
+        box.textContent = JSON.stringify(data, null, 2);
+      } catch (e) {
+        box.textContent = "Ошибка: " + e.message;
+      }
+    });
+  </script>
+</body>
+</html>

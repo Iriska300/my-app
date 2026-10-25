@@ -1,0 +1,19 @@
+replicaCount: 2
+
+image:
+  repository: Iriska300/client
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+  nodePort: 30080
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 25m
+    memory: 32Mi
