@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        REGISTRY     = "Iriska300"
+        REGISTRY     = "ghcr.io/Iriska300"
         IMAGE_TAG    = "\${env.BUILD_NUMBER}-\${env.GIT_COMMIT.take(7)}"
         DOCKER_CREDS = "docker-hub-credentials"
         KUBECONFIG   = "/var/lib/jenkins/.kube/config"

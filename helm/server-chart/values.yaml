@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  repository: Iriska300/server
+  repository: ghcr.io/Iriska300/server
   tag: latest
   pullPolicy: IfNotPresent
 
