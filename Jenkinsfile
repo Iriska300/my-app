@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        REGISTRY     = "ghcr.io/iriska300"
+        REGISTRY     = "ВАШ_ЛОГИН"
         DOCKER_CREDS = "docker-hub-credentials"
         KUBECONFIG   = "/var/lib/jenkins/.kube/config"
     }
@@ -18,7 +18,7 @@ pipeline {
                     steps {
                         script {
                             def tag = "${env.BUILD_NUMBER}-${env.GIT_COMMIT.take(7)}"
-                            docker.withRegistry('https://ghcr.io', env.DOCKER_CREDS) {
+                            docker.withRegistry('', env.DOCKER_CREDS) {
                                 def img = docker.build("${env.REGISTRY}/client:${tag}", "./client")
                                 img.push()
                                 img.push('latest')
@@ -30,7 +30,7 @@ pipeline {
                     steps {
                         script {
                             def tag = "${env.BUILD_NUMBER}-${env.GIT_COMMIT.take(7)}"
-                            docker.withRegistry('https://ghcr.io', env.DOCKER_CREDS) {
+                            docker.withRegistry('', env.DOCKER_CREDS) {
                                 def img = docker.build("${env.REGISTRY}/server:${tag}", "./server")
                                 img.push()
                                 img.push('latest')
