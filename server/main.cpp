@@ -38,6 +38,9 @@ int main() {
         
         if (req.find("GET /api/status") != std::string::npos) {
             send(new_socket, http_response.c_str(), http_response.length(), 0);
+        } else if (req.find("GET /healthz") != std::string::npos) {
+            std::string ok_resp = "HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\nok";
+            send(new_socket, ok_resp.c_str(), ok_resp.length(), 0);
         } else {
             std::string not_found = "HTTP/1.1 404 Not Found\r\n\r\n";
             send(new_socket, not_found.c_str(), not_found.length(), 0);
