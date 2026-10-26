@@ -1,7 +1,10 @@
-FROM python:3.12-slim
+FROM gcc:13-bookworm AS builder
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-COPY app.py .
+COPY main.cpp .
+RUN g++ -O3 -static -o server main.cpp -lpthread
+
+FROM debian:bookworm-slim
+WORKDIR /app
+COPY --from=builder /app/server .
 EXPOSE 5000
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+CMD ["./server"]
