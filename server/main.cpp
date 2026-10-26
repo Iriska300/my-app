@@ -25,7 +25,7 @@ int main() {
     const char* app_version = std::getenv("APP_VERSION");
     if (!app_version) app_version = "dev";
 
-    std::string json_response = "{\"status\":\"ok\", \"version\":\"" + std::string(app_version) + "\", \"service\":\"server (C++)\"}";
+    std::string json_response = "{\"status\":\"ok\", \"version\":\"" + std::string(app_version) + "\", \"service\":\"server\"}";
     std::string http_response = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: " + std::to_string(json_response.length()) + "\r\n\r\n" + json_response;
 
     while (true) {
