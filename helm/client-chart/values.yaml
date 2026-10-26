@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  repository: ВАШ_ЛОГИН/client
+  repository: iriska2604/client
   tag: latest
   pullPolicy: IfNotPresent
 

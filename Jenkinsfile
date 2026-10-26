@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        REGISTRY     = "ВАШ_ЛОГИН"
+        REGISTRY     = "iriska2604"
         DOCKER_CREDS = "docker-hub-credentials"
         KUBECONFIG   = "/var/lib/jenkins/.kube/config"
     }
