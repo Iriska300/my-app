@@ -27,11 +27,13 @@ pipeline {
                     env.IMAGE_TAG = tag
 
                     def buildAndPush = { String svc ->
-                        stage("Build ${svc}") {
-                            docker.withRegistry('', env.DOCKER_CREDS) {
-                                def img = docker.build("${env.REGISTRY}/${svc}:${tag}", "./${svc}")
-                                img.push()
-                                img.push('latest')
+                        return {
+                            stage("Build ${svc}") {
+                                docker.withRegistry('', env.DOCKER_CREDS) {
+                                    def img = docker.build("${env.REGISTRY}/${svc}:${tag}", "./${svc}")
+                                    img.push()
+                                    img.push('latest')
+                                }
                             }
                         }
                     }
